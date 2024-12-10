@@ -12,7 +12,7 @@ test.describe('Functionalities Test', () => {
  
 });
  
-  test.skip('Zoom In Functionality', async ({ page }) => {
+  test.only('Zoom In Functionality', async ({ page }) => {
    
     await page.click("//button[@id='0_zoomIn']");
     const zoomLevelText = await page.locator('.zoom-level-selector').innerText();
@@ -20,7 +20,7 @@ test.describe('Functionalities Test', () => {
     expect(zoomLevel).toBeGreaterThan(1);
   });
  
-  test.skip('General Search Functionality', async ({ page }) => {
+  test.only('General Search Functionality', async ({ page }) => {
    
     const searchInput = page.locator('input[placeholder="Search here..."]');
     const searchQuery = 'alula';
