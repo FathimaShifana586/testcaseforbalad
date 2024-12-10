@@ -1,36 +1,22 @@
-import { test, expect } from '@playwright/test';
- 
-test.describe('Functionalities Test', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('https://www.gto-portal.com/geoportalv2/', {timeout:60000});
-    // login if necessary
-    await page.waitForSelector('input[name="userName"]', {timeout:30000});
-    await page.fill('input[name="userName"]', 'JHD-fathima');
-    await page.fill('input[name="password"]', '1234')
+import {test,expect} from "@playwright/test"
+
+test.only('Login with Valid Credentials', async({page}) => {
+    await page.waitForTimeout(6000);
+    await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
+    await page.fill('input[name="userName"]', 'jhd-fathima');
+    await page.fill('input[name="password"]', '1234');
+    await expect(page).toHaveTitle(/JHD | Geoportal/); 
     await page.click('button[type="submit"]');
 
- 
+
 });
- 
-  test.only('Zoom In Functionality', async ({ page }) => {
-   
-    await page.click("//button[@id='0_zoomIn']");
-    const zoomLevelText = await page.locator('.zoom-level-selector').innerText();
-    const zoomLevel = Number(zoomLevelText);
-    expect(zoomLevel).toBeGreaterThan(1);
-  });
- 
-  test.only('General Search Functionality', async ({ page }) => {
-   
-    const searchInput = page.locator('input[placeholder="Search here..."]');
-    const searchQuery = 'alula';
- 
-    await searchInput.fill(searchQuery);
-    await searchInput.press('Enter');
- 
-   
-    const searchResults = page.locator('.search-results');
-    await expect(searchResults).toBeVisible();
-    await expect(searchResults).toContainText(searchQuery);
-  });
+test.only('Login with invalid credentials', async ({page})=> {
+    await page.waitForTimeout(6000);
+    await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
+    await page.fill('input[name="userName"]', 'invalidUsername');
+    await page.fill('input[name="password"]', 'invalidpassword');
+    await page.click('button:has-text("Login")');
+    await expect(page.locator('text= Username or Password is wrong.')).toBeVisible({timeout:10000});
+    console.log(await page.content());
+    await page.screenshot({ path: 'login-error.png' });
 });
