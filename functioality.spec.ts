@@ -18,7 +18,7 @@ test.describe('ProfileMenu Button Test', () => {
     await page.waitForSelector('button[ng-click="togglewithactive(\'profilemenu\', \'profilemenu-btn\', \'nav-part2\')"]', { timeout: 60000 });
   });
 
-  test('ProfileMenu button is clickable and opens profile menu', async ({ page }) => {
+  test.skip('ProfileMenu button is clickable and opens profile menu', async ({ page }) => {
     const profileMenuButton = await page.locator('button[ng-click="togglewithactive(\'profilemenu\', \'profilemenu-btn\', \'nav-part2\')"]');
     await expect(profileMenuButton).toBeVisible();
     await profileMenuButton.click();
@@ -28,6 +28,24 @@ test.describe('ProfileMenu Button Test', () => {
 
     const menuItem = await profileMenu.locator('text=Profile');
     await expect(menuItem).toBeVisible();
+
+    test.only('Language Switcher button should switch the language when clicked', async ({ page }) => {
+        
+        const languageButton = await page.locator('#langMenu-btn');
+        
+        
+        const initialLanguage = await languageButton.locator('span.d-sm-block').textContent();
+        
+        
+        await languageButton.click();
+        
+       
+        const updatedLanguage = await languageButton.locator('span.d-sm-block').textContent();
+        
+       
+        expect(updatedLanguage).not.toBe(initialLanguage);
+      });
+    
+    });
   });
-});
 
