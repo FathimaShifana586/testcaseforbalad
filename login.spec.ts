@@ -1,7 +1,7 @@
 import {test,expect} from "@playwright/test"
 
 test.only('Login with Valid Credentials', async({page}) => {
-    await page.waitForTimeout(6000);
+    await page.waitForTimeout(60000);
     await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
     await page.fill('input[name="userName"]', 'jhd-fathima');
     await page.fill('input[name="password"]', '1234');
