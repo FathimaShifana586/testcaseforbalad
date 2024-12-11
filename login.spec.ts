@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Login Tests', () => {
-  test.only('Login with Valid Credentials', async ({ page }) => {
+  test.skip('Login with Valid Credentials', async ({ page }) => {
     //page.on('response',(response)=>
    //console.log('received from: ${response.url()}')
   //})
@@ -22,7 +22,7 @@ test.describe('Login Tests', () => {
     await expect(page).toHaveTitle(/JHD | Geoportal/); // Replace with the actual title
   });
 
-  test.only('Login with Invalid Credentials', async ({ page }) => {
+  test.skip('Login with Invalid Credentials', async ({ page }) => {
     // Navigate to login page
     await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
 
