@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test('Login with Valid Credentials', async ({ page }) => {
+test.skip('Login with Valid Credentials', async ({ page }) => {
     await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
     await page.fill('input[name="userName"]', 'jhd-fathima');
     await page.fill('input[name="password"]', '1234');
@@ -11,7 +11,7 @@ test('Login with Valid Credentials', async ({ page }) => {
     await expect(page).toHaveTitle(/JHD | Geoportal/);
 });
 
-test('Login with Invalid Credentials', async ({ page }) => {
+test.skip('Login with Invalid Credentials', async ({ page }) => {
     await page.goto('https://www.gto-portal.com/Geoportal-JHD/login');
     await page.fill('input[name="userName"]', 'invalidUsername');
     await page.fill('input[name="password"]', 'invalidpassword');

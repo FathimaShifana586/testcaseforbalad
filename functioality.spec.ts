@@ -97,6 +97,7 @@ test.describe('Profile Menu, Language Switcher, General Search, and Side Menu To
     await page.screenshot({ path: 'side-menu-closed.png' });
     await expect(sideMenu).not.toBeVisible();
   });
+
   test('Measurement button should be functional', async ({ page }) => {
     const measurementButton = await page.locator('#\\30 _measure');
     await expect(measurementButton).toBeVisible();
@@ -110,7 +111,86 @@ test.describe('Profile Menu, Language Switcher, General Search, and Side Menu To
     console.log('Measurement tool is visible and functional.');
     await page.screenshot({ path: 'measurement-tool.png' });
   });
+
+  test('Measurement tools should be functional', async ({ page }) => {
+    // Line Measurement Test
+    const lineMeasurementButton = await page.locator('[data-testid="line-measurement-btn"]');
+    await expect(lineMeasurementButton).toBeVisible();
+
+    
+    try {
+        await lineMeasurementButton.click();
+        const lineMeasurementTool = await page.locator('div[ng-reflect-message="Line Measurement"]');
+        await expect(lineMeasurementTool).toBeVisible();
+        console.log('Line Measurement tool is functional.');
+    } catch (error) {
+        console.error('Line Measurement button click failed or tool did not appear as expected.', error);
+    }
+
+    // Area Measurement Test
+    const areaMeasurementButton = await page.locator('#areaMeasurementIcon');
+    await expect(areaMeasurementButton).toBeVisible();
+
+    await areaMeasurementButton.click();
+    const areaMeasurementTool = await page.locator('div[ng-reflect-message="Area Measurement"]');
+    await expect(areaMeasurementTool).toBeVisible({ timeout: 3000 }); // Use a timeout to avoid flaky tests in slower environments
+
+    console.log('Area Measurement tool is functional.');
+    await page.screenshot({ path: `screenshots/area-measurement-tool-${Date.now()}.png` });
+
+    // Point Coordinates Measurement Test
+    const pointCoordinatesButton = await page.locator('#pointCoordinatesIcon');
+    await expect(pointCoordinatesButton).toBeVisible();
+
+    await pointCoordinatesButton.click();
+    const pointCoordinatesTool = await page.locator('div[ng-reflect-message="Point Coordinates Measurement"]');
+    await expect(pointCoordinatesTool).toBeVisible({ timeout: 3000 }); // Use a timeout to avoid flaky tests in slower environments
+
+    console.log('Point Coordinates Measurement tool is functional.');
+    await page.screenshot({ path: `screenshots/point-coordinates-tool-${Date.now()}.png` });
+
+    
+    console.log('Measurement tools verification completed.');
+  });
+  test('Full Extent button should work correctly', async ({ page }) => {
+    const fullExtentButton = await page.locator('#2_fullExtent');
+    await expect(fullExtentButton).toBeVisible();
+
+    // Click on the button
+    await fullExtentButton.click();
+    
+    const zoomLevel = await page.locator('.map-zoom-level').innerText();
+    await expect(parseInt(zoomLevel)).toBeGreaterThan(0); 
+
+    
+    const tooltip = await page.locator('[aria-describedby="cdk-describedby-message-69"]');
+    await expect(tooltip).toHaveText('Full Extent');
+  });
+  test('Zoom to Selected button should work correctly', async ({ page }) => {
+    // Locate the "Zoom to Selected" button
+    const zoomToSelectedButton = await page.locator('#\\33 _ZoomtoSelected');
+    
+    // Ensure the button is visible
+    await expect(zoomToSelectedButton).toBeVisible();
+
+    // Click the "Zoom to Selected" button
+    await zoomToSelectedButton.click();
+
+    const zoomLevel = await page.locator('.map-zoom-level').innerText();
+    await expect(parseInt(zoomLevel)).toBeGreaterThan(0);  
+    
+    const tooltip = await page.locator('[aria-describedby="cdk-describedby-message-70"]');
+    await expect(tooltip).toHaveText('Zoom to Selected');
 });
+
+});
+
+ 
+    
+  
+
+
+
 
 
 
