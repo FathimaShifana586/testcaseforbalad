@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Profile Menu, Language Switcher, and General Search Test', () => {
+test.describe('Profile Menu, Language Switcher, General Search, and Side Menu Toggle Test', () => {
 
   test.beforeEach(async ({ page }) => {
     console.log('Navigating to login page...');
@@ -18,7 +18,6 @@ test.describe('Profile Menu, Language Switcher, and General Search Test', () => 
     console.log('Waiting for profile menu button...');
     await page.waitForSelector('button[ng-click="togglewithactive(\'profilemenu\', \'profilemenu-btn\', \'nav-part2\')"]', { timeout: 120000 });
 
-    // Wait for the search input field to be visible
     console.log('Waiting for search input...');
     await page.waitForSelector('#nav-part3 > input', { timeout: 120000 });
   });
@@ -83,7 +82,38 @@ test.describe('Profile Menu, Language Switcher, and General Search Test', () => 
     await expect(searchResults).toContainText(searchText);
     await page.screenshot({ path: 'general-search-results.png' });
   });
+
+  test('Side menu toggle button should toggle the menu', async ({ page }) => {
+    const sideMenuButton = await page.locator('#nav-part1 > button');
+    await expect(sideMenuButton).toBeVisible();
+
+    await sideMenuButton.click();
+    await page.screenshot({ path: 'side-menu-open.png' });
+
+    const sideMenu = await page.locator('#sideMenu');
+    await expect(sideMenu).toBeVisible();
+
+    await sideMenuButton.click();
+    await page.screenshot({ path: 'side-menu-closed.png' });
+    await expect(sideMenu).not.toBeVisible();
+  });
+  test('Measurement button should be functional', async ({ page }) => {
+    const measurementButton = await page.locator('#\\30 _measure');
+    await expect(measurementButton).toBeVisible();
+
+    await measurementButton.click();
+    await page.waitForTimeout(1000);
+
+    const measurementTool = await page.locator('div[ng-reflect-message="Measurement"]');
+    await expect(measurementTool).toBeVisible();
+
+    console.log('Measurement tool is visible and functional.');
+    await page.screenshot({ path: 'measurement-tool.png' });
+  });
 });
+
+
+
 
 
 
